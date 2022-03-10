@@ -19,13 +19,22 @@
       @foreach ($comics as $elemento)
         <tr>
           <td scope="row">{{$elemento->id}}</td>
-          <td><a href="{{route("comics.show", $elemento->id )}}">{{$elemento->title}}</a></td>
+          <td>{{$elemento->title}}</td>
           <td>{{$elemento->description}}</td>
           <td><img src="{{$elemento->thumb}}" alt=""></td>
           <td>{{$elemento->price}}</td>
           <td>{{$elemento->series}}</td>
           <td>{{$elemento->sale_date}}</td>
           <td>{{$elemento->type}}</td>
+          <td>
+            <a href="{{ route('comics.show', $elemento->id) }}"><button type="button" class="btn btn-primary">Vedi</button></a>
+            <a href="{{ route('comics.edit', $elemento->id) }}"><button type="button" class="btn btn-warning">Edita</button></a>
+            <form action="{{route("comics.destroy", $elemento->id)}}" method="POST">
+                @csrf
+                @method("DELETE")
+                <button type="submit" class="btn btn-danger">Rimuovi</button>
+            </form>
+          </td>
         </tr>
       @endforeach
     </tbody>
