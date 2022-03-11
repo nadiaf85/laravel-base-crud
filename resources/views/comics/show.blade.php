@@ -1,6 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
+<div class="container">
     <a href="{{route("comics.index")}}"><button type="button" class="btn btn-primary">back</button></a></th>
     <h1>{{$comic->title}}</h1>
     <p>{{$comic->description}}</p>
@@ -17,4 +18,5 @@
       </form>
     
       <a href="{{route("comics.index")}}"><button type="button" class="btn btn-primary">Back</button></a>
+</div>
 @endsection

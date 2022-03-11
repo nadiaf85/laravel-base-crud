@@ -32,7 +32,7 @@
             <form action="{{route("comics.destroy", $elemento->id)}}" method="POST">
                 @csrf
                 @method("DELETE")
-                <button type="submit" class="btn btn-danger">Rimuovi</button>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questo fumetto?')">Rimuovi</button>
             </form>
           </td>
         </tr>
