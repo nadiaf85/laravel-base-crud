@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comic;
+use Illuminate\Validation\Rule;
 
 class ComicController extends Controller
 {
@@ -36,6 +37,19 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "title"=>"required|string|max:80|unique:comics",
+            "description"=>"required|string",
+            "thumb"=>"required|url",
+            "price"=>"required|numeric|between:0 , 999.99",
+            "series"=>"required|string",
+            "sale_date"=>"required|date",
+            "type"=>[
+                "required",
+                Rule::in(['comic book','graphic novel'])
+            ],
+        ]);
+
         $data = $request->all();
         
         $fumetto = new Comic();
@@ -48,6 +62,10 @@ class ComicController extends Controller
             $fumetto->type = $data['type'];
             $fumetto->save();
 
+            // fumetto = new Comic();
+            // fumetto->fill($data);
+            // fumetto->save();
+
         return redirect()->route('comics.show', $fumetto->id);
     }
 
@@ -59,6 +77,9 @@ class ComicController extends Controller
      */
     public function show(Comic $comic)
     {
+        //$comic = Comic::where('id',$id)->get();
+        //$comic = Comic::find($id);
+
         return view('comics.show',compact('comic'));
     }
 
@@ -82,6 +103,19 @@ class ComicController extends Controller
      */
     public function update(Request $request, Comic $comic)
     {
+        $request->validate([
+            "title"=>"required|string|max:80|unique:comics,title,{$comic->id}",
+            "description"=>"required|string",
+            "thumb"=>"required|url",
+            "price"=>"required|numeric| between:0 , 999.99",
+            "series"=>"required|string",
+            "sale_date"=>"required|date",
+            "type"=>[
+                "required",
+                Rule::in(['comic book','graphic novel'])
+            ],
+        ]);
+
         $data = $request->all();
 
         $comic = new Comic();
